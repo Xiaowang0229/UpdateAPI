@@ -19,7 +19,6 @@ namespace UpdateAPI
         private string Websitepath;
         private string Outputpath;
         private string StartApplicationName;
-        private string ShowInfo;
         public MainWindow()
         {
             if(args.Count() != 4)
@@ -29,7 +28,6 @@ namespace UpdateAPI
             }
             Websitepath = args[0];
             Outputpath = args[1];
-            ShowInfo = args[2];
             StartApplicationName = args[3];
             InitializeComponent();
             
@@ -39,14 +37,10 @@ namespace UpdateAPI
 
         private async void FluentWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            var pipeline = new MarkdownPipelineBuilder()
-                .UseAdvancedExtensions()
-                .Build();
-            FlowDocument document = Markdig.Wpf.Markdown.ToFlowDocument(ShowInfo, pipeline);
-            infobar.Document = document;
+            
             try
             {
-                Console.WriteLine("尝试启动下载……");
+                log.Text += "尝试启动下载……\r\n";
                 bool DownloadStatus = false;
                 if (File.Exists(Path.GetTempPath() + "\\Temp.zip"))
                 {
@@ -74,7 +68,8 @@ namespace UpdateAPI
                     Progress = ((p, s) =>
                     {
                         //Console.WriteLine($"目前进度:{(int)p}%");
-                        progressbar.Value = (int)p * 0.9;
+                        progressbar.Value = ((int)p) * 0.9;
+                        log.Text += $"当前下载进度：{(((int)p)).ToString()}%\r\n";
                     })
                 };
                 downloader.StartDownload();
@@ -82,7 +77,11 @@ namespace UpdateAPI
                 {
                     Thread.Sleep(TimeSpan.FromSeconds(2));
                 }
+
+                log.Text += "下载已完成。\r\n";
+                log.Text += "正在尝试解压资源文件……\r\n";
                 await ZipFile.ExtractToDirectoryAsync(Path.GetTempPath() + "\\Temp.zip", Outputpath, true);
+                log.Text += "解压已完成，即将退出程序\r\n";
                 progressbar.Value = 100;
                 await Task.Delay(50);
                 Process.Start(new ProcessStartInfo

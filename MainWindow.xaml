@@ -10,7 +10,13 @@
         Title="MainWindow" Height="450" Width="700" Loaded="FluentWindow_Loaded">
     <Grid>
         <ui:TitleBar Title="新版本安装程序" HorizontalAlignment="Stretch"  VerticalAlignment="Top" Height="40" ShowMinimize="False" ShowMaximize="False"/>
-        <FlowDocumentScrollViewer x:Name="infobar" HorizontalAlignment="Stretch" Margin="40,40,40,40" />
+        <RichTextBox IsReadOnly="True" x:Name="infobar" HorizontalAlignment="Stretch" Margin="40,40,40,40" >
+            <FlowDocument>
+                <Paragraph>
+                    <Run x:Name="log" FontFamily="Microsoft YaHei UI"/>
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>
         <TextBlock x:Name="progresstext" Text="当前进度:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="40,410,0,0"/>
         <ProgressBar x:Name="progressbar" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="5"/>
     </Grid>
