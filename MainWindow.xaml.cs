@@ -26,14 +26,14 @@ namespace UpdateAPI
             
             InitializeComponent();
             args = Environment.GetCommandLineArgs();
-            if (args.Length < 4)
+            if (args.Length < 3)
             {
                 MessageBox.Show("应依照如下方法给参: UpdateAPI.exe <Websitepath> <Outputpath> <StartApplicationName>", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 Environment.Exit(0);
             }
             Websitepath = args[1];
-            Outputpath = args[2];
-            StartApplicationName = args[3];
+            Outputpath = Path.GetDirectoryName(args[2]);
+            StartApplicationName = args[2];
             
         }
 
@@ -100,13 +100,10 @@ namespace UpdateAPI
                 progressbar.Value = 100;
                 await Task.Delay(50);
                 //MessageBox.Show(Outputpath + "\\" + StartApplicationName);
-                /*Process.Start(new ProcessStartInfo
-                {
-                    FileName = (Outputpath+"\\"+StartApplicationName+"\\").Trim(),
-                    UseShellExecute = true
-                });*/
                 
-                Environment.Exit(0);
+                App.SafeStart(StartApplicationName);
+                await Task.Delay(500);
+                Application.Current.Shutdown();
             }
             catch (Exception ex)
             {
