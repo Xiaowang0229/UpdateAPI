@@ -1,3 +1,10 @@
 <Solution>
-  <Project Path="UpdateAPI.csproj" />
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="UpdateAPI.csproj">
+    <BuildType Solution="Debug|Any CPU" Project="Release" />
+    <Platform Solution="*|x86" Project="x86" />
+  </Project>
 </Solution>
