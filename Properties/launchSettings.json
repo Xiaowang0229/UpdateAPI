@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "UpdateAPI": {
+      "commandName": "Project",
+      "commandLineArgs": "https://lz.qaiu.top/parser?url=https://xiaowang-hanxing.lanzouv.com/isBqG3edlu6d D:\\Tst RocketLauncher.exe"
+    }
+  }
+}
