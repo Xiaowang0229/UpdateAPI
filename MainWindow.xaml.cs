@@ -25,14 +25,15 @@ namespace UpdateAPI
             
             InitializeComponent();
             args = Environment.GetCommandLineArgs();
-            if (args.Length < 3)
+            if (args.Length != 3)
             {
-                MessageBox.Show("应依照如下方法给参: UpdateAPI.exe <Websitepath> <Outputpath> <StartApplicationName>", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"应依照如下方法给参: UpdateAPI.exe <Websitepath> <Outputpath>,你的参数个数是{args.Length}个", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 Environment.Exit(0);
             }
             Websitepath = args[1];
             Outputpath = Path.GetDirectoryName(args[2]);
             StartApplicationName = args[2];
+            
             
         }
 
@@ -88,7 +89,9 @@ namespace UpdateAPI
                 try
                 {
                     await ZipFile.ExtractToDirectoryAsync(Path.GetTempPath() + "\\Temp.zip", Outputpath, true);
-                    log.Text += "解压已完成，即将退出程序……\r\n";
+
+                    log.Text += "解压已完成，正在进行清理，即将退出程序……\r\n";
+                    File.Delete(Path.GetTempPath() + "\\Temp.zip");
                 }
                 catch(Exception ex)
                 {
@@ -97,11 +100,17 @@ namespace UpdateAPI
                 }
                 progresstext.Text = "当前进度：100%";
                 progressbar.Value = 100;
-                await Task.Delay(50);
+                await Task.Delay(100);
                 //MessageBox.Show(Outputpath + "\\" + StartApplicationName);
-                
-                App.SafeStart(StartApplicationName);
-                await Task.Delay(500);
+
+                var stdinfo = new ProcessStartInfo
+                {
+                    FileName = StartApplicationName,
+                    WorkingDirectory = Outputpath,
+                    UseShellExecute =true
+                };
+                Process.Start(stdinfo);
+                await Task.Delay(100);
                 Application.Current.Shutdown();
             }
             catch (Exception ex)
