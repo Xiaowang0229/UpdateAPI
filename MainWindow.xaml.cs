@@ -88,7 +88,7 @@ namespace UpdateAPI
                 
                 try
                 {
-                    await ZipFile.ExtractToDirectoryAsync(Path.GetTempPath() + "\\Temp.zip", Outputpath, true);
+                    ZipFile.ExtractToDirectory(Path.GetTempPath() + "\\Temp.zip", Outputpath, true);
 
                     log.Text += "解压已完成，正在进行清理，即将退出程序……\r\n";
                     File.Delete(Path.GetTempPath() + "\\Temp.zip");
