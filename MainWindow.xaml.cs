@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq.Expressions;
+using System.Security.Cryptography;
 using System.Windows;
 using System.Windows.Documents;
 using Wpf.Ui.Controls;
@@ -20,6 +21,7 @@ namespace UpdateAPI
         private string Websitepath;
         private string Outputpath;
         private string StartApplicationName;
+
         public MainWindow()
         {
             
@@ -37,14 +39,21 @@ namespace UpdateAPI
             
         }
 
+        public static string RandomHashGenerate(int byteLength = 16)
+        {
+            byte[] bytes = new byte[byteLength];
+            RandomNumberGenerator.Fill(bytes);
+            return Convert.ToHexString(bytes);
+        }
+
         private async void FluentWindow_Loaded(object sender, RoutedEventArgs e)
         {
-           
+            var filname = RandomHashGenerate();
             log.Text += "尝试启动下载……\r\n";
             bool DownloadStatus = false;
-            if (File.Exists(Path.GetTempPath() + "\\Temp.zip"))
+            if (File.Exists(Path.GetTempPath() + "\\" + filname + ".zip"))
             {
-                File.Delete(Path.GetTempPath() + "\\Temp.zip");
+                File.Delete(Path.GetTempPath() + "\\" + filname + ".zip");
             }
             try
             {
@@ -52,7 +61,7 @@ namespace UpdateAPI
                 var downloader = new Downloader
                 {
                     Url = Websitepath,
-                    SavePath = Path.GetTempPath() + "\\Temp.zip",
+                    SavePath = Path.GetTempPath() + "\\" + filname + ".zip",
                     Completed = (async (s, e) =>
                     {
                         if (s)
@@ -88,10 +97,10 @@ namespace UpdateAPI
                 
                 try
                 {
-                    ZipFile.ExtractToDirectory(Path.GetTempPath() + "\\Temp.zip", Outputpath, true);
+                    ZipFile.ExtractToDirectory(Path.GetTempPath() + "\\" + filname + ".zip", Outputpath, true);
 
                     log.Text += "解压已完成，正在进行清理，即将退出程序……\r\n";
-                    File.Delete(Path.GetTempPath() + "\\Temp.zip");
+                    File.Delete(Path.GetTempPath() + "\\" + filname + ".zip");
                 }
                 catch(Exception ex)
                 {
