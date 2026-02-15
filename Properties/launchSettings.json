@@ -1,8 +1,8 @@
 {
   "profiles": {
-    "UpdateAPI": {
+    "UpdateAPILite": {
       "commandName": "Project",
-      "commandLineArgs": "\"https://lz.qaiu.top/parser?url=https://xiaowang-hanxing.lanzouv.com/i3eIG3hvxv8j\" \"D:\\Tst\\u k k i\\MultiGameLauncher.exe\""
+      "commandLineArgs": "\"https://lz.qaiu.top/parser?url=https://share.feijipan.com/s/KaQPTG2U\"\r\n\"E:\\NFD\\RocketLauncherRemake.exe\""
     }
   }
 }
