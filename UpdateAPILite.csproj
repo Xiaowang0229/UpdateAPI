@@ -6,6 +6,11 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+	  <SelfContained>false</SelfContained>
+	  <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+	  <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+	  <PublishSingleFile>true</PublishSingleFile>
+	  <PublishReadyToRun>false</PublishReadyToRun>
   </PropertyGroup>
 
   <ItemGroup>
